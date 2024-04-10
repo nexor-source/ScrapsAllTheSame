@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using BepInEx.Configuration;
 
 
-namespace ScrapsScrapsAllTheSame
+namespace ScrapsAllTheSame
 {
     [BepInPlugin(modGUID, modName, modVersion)]
     // [BepInPlugin("nexor.MyFirstBepInExMod", "这是我的第2个BepIn插件", "1.0.0.0")]
@@ -13,8 +13,9 @@ namespace ScrapsScrapsAllTheSame
     {
         private const string modGUID = "nexor.ScrapsAllTheSame";
         private const string modName = "ScrapsAllTheSame";
-        private const string modVersion = "0.0.1";
-
+        private const string modVersion = "0.0.3";
+        public ConfigEntry<float> random_scrap_day_chance;
+        public ConfigEntry<int> random_scrap_type_num;
         private readonly Harmony harmony = new Harmony(modGUID);
         public static ScrapsAllTheSame Instance;
 
@@ -25,8 +26,18 @@ namespace ScrapsScrapsAllTheSame
             {
                 Instance = this;
             }
+            random_scrap_day_chance = ((BaseUnityPlugin)this).Config.Bind<float>("Scraps All The Same Config",
+                "Same Scraps Day Chance (%)",
+                100,
+                "你可以在这里修改'单种垃圾日'出现的概率\n" +
+                "You can modify the probability of Same Scraps Day here");
+            random_scrap_type_num = ((BaseUnityPlugin)this).Config.Bind<int>("Scraps All The Same Config",
+                "Random Scrap Type Number",
+                1,
+                "你可以在这里修改'单种垃圾日'随机出现多少种垃圾，默认只有一种\n" +
+                "Here you can change how many types of garbage appear randomly in the 'Single Garbage Day', and there is only one type by default");
             harmony.PatchAll();
-            ((ScrapsAllTheSame)this).Logger.LogInfo((object)"ScrapsAllTheSame 0.0.1 loaded.");
+            ((ScrapsAllTheSame)this).Logger.LogInfo((object)"ScrapsAllTheSame 0.0.3 loaded.");
         }
     }
 }
@@ -43,25 +54,30 @@ namespace ScrapsAllTheSame.Patches.Items
         [HarmonyPriority(int.MinValue)]
         private static void SpawnScrapInLevelPrefixPatch(ref SelectableLevel ___currentLevel)
         {
-            Debug.Log("Setting spawnable scrap to be only one type of garbage randomly.");
+            if (ScrapsAllTheSame.Instance.random_scrap_day_chance.Value > (float) UnityEngine.Random.Range(0, 100)) { 
 
-            // Store the original list of spawnable scrap
-            previousSpawnableScrap = ___currentLevel.spawnableScrap;
+                Debug.Log("Setting spawnable scrap to be only one type of garbage randomly.");
 
-            /*for (int i = 0; i < previousSpawnableScrap.Count; i++)
-            {
-                string name = previousSpawnableScrap[i].spawnableItem.itemName.ToLower();
-                Debug.Log(name);
-            }*/
-            // Randomly select one type of garbage
-            SpawnableItemWithRarity selectedScrap = previousSpawnableScrap[UnityEngine.Random.Range(0, previousSpawnableScrap.Count)];
+                // Store the original list of spawnable scrap
+                previousSpawnableScrap = ___currentLevel.spawnableScrap;
 
-            // Create a new list with only the selected garbage
-            List<SpawnableItemWithRarity> newSpawnableScrap = new List<SpawnableItemWithRarity>();
-            newSpawnableScrap.Add(selectedScrap);
+                /*for (int i = 0; i < previousSpawnableScrap.Count; i++)
+                {
+                    string name = previousSpawnableScrap[i].spawnableItem.itemName.ToLower();
+                    Debug.Log(name);
+                }*/
+                // Create a new list with only the selected garbage
+                List<SpawnableItemWithRarity> newSpawnableScrap = new List<SpawnableItemWithRarity>();
 
-            // Set the current level's spawnable scrap to only contain the selected garbage
-            ___currentLevel.spawnableScrap = newSpawnableScrap;
+                for (int i = 0; i < ScrapsAllTheSame.Instance.random_scrap_type_num.Value; i++)
+                {
+                    SpawnableItemWithRarity item = previousSpawnableScrap[Random.Range(0, previousSpawnableScrap.Count)];
+                    newSpawnableScrap.Add(item);
+                }
+
+                // Set the current level's spawnable scrap to only contain the selected garbage
+                ___currentLevel.spawnableScrap = newSpawnableScrap;
+            }
         }
 
         [HarmonyPatch("SpawnScrapInLevel")]

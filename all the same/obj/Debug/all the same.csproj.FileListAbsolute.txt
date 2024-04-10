@@ -4,3 +4,9 @@ D:\coding\vs\all the same\all the same\obj\Debug\all the same.csproj.AssemblyRef
 D:\coding\vs\all the same\all the same\obj\Debug\all the same.csproj.CoreCompileInputs.cache
 D:\coding\vs\all the same\all the same\obj\Debug\all the same.dll
 D:\coding\vs\all the same\all the same\obj\Debug\all the same.pdb
+C:\Users\ADMIN\Documents\GitHub\ScrapsAllTheSame\all the same\bin\Debug\all the same.dll
+C:\Users\ADMIN\Documents\GitHub\ScrapsAllTheSame\all the same\bin\Debug\all the same.pdb
+C:\Users\ADMIN\Documents\GitHub\ScrapsAllTheSame\all the same\obj\Debug\all the same.csproj.AssemblyReference.cache
+C:\Users\ADMIN\Documents\GitHub\ScrapsAllTheSame\all the same\obj\Debug\all the same.csproj.CoreCompileInputs.cache
+C:\Users\ADMIN\Documents\GitHub\ScrapsAllTheSame\all the same\obj\Debug\all the same.dll
+C:\Users\ADMIN\Documents\GitHub\ScrapsAllTheSame\all the same\obj\Debug\all the same.pdb
