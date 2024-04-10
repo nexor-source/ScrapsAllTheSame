@@ -1,0 +1,6 @@
+D:\coding\vs\all the same\all the same\bin\Debug\all the same.dll
+D:\coding\vs\all the same\all the same\bin\Debug\all the same.pdb
+D:\coding\vs\all the same\all the same\obj\Debug\all the same.csproj.AssemblyReference.cache
+D:\coding\vs\all the same\all the same\obj\Debug\all the same.csproj.CoreCompileInputs.cache
+D:\coding\vs\all the same\all the same\obj\Debug\all the same.dll
+D:\coding\vs\all the same\all the same\obj\Debug\all the same.pdb
